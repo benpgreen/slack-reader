@@ -1,8 +1,7 @@
 import requests
 
 from .responses import User, Channel
-
-SLACK_URL = 'https://slack.com/api/'
+from .tools import get_request_url
 
 
 class SlackReader:
@@ -12,8 +11,8 @@ class SlackReader:
 
     def get_users(self, active_only=True):
 
-        url = SLACK_URL + "users.list?token={}&pretty=1"
-        response = requests.get(url.format(self.api_key))
+        url = get_request_url('users.list', self.api_key)
+        response = requests.get(url)
         response = response.json()
         if not response['ok']:
             raise ValueError("Problem connecting.")
@@ -25,7 +24,7 @@ class SlackReader:
 
     def get_channels(self):
 
-        url = SLACK_URL + "channels.list?token={}&pretty=1"
+        url = get_request_url('channels.list', self.api_key)
         response = requests.get(url.format(self.api_key))
         response = response.json()
         if not response['ok']:
