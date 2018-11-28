@@ -1,5 +1,7 @@
 import requests
 
+from .responses import User, Channel
+
 SLACK_URL = 'https://slack.com/api/'
 
 
@@ -18,7 +20,7 @@ class SlackReader:
         user_list = []
         for user in response['members']:
             if not user['deleted'] or not active_only:
-                user_list.append(user['id'])
+                user_list.append(User(user))
         self.users = user_list
 
     def get_channels(self):
@@ -31,5 +33,5 @@ class SlackReader:
         channel_list = []
         for channel in response['channels']:
             if channel['is_channel']:
-                channel_list.append(channel['id'])
+                channel_list.append(Channel(channel))
         self.channels = channel_list
