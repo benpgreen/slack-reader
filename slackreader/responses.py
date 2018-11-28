@@ -11,7 +11,7 @@ class User:
         self.bot = user_response['is_bot']
 
     def __repr__(self):
-        return self.__dict__
+        return repr(self.__dict__)
 
 
 class Message:
@@ -28,7 +28,7 @@ class Message:
             self.reactions = []
 
     def __repr__(self):
-        return self.__dict__
+        return repr(self.__dict__)
 
 
 class Channel:
@@ -45,4 +45,4 @@ class Channel:
         self.num_members = channel_response['num_members']
 
     def __repr__(self):
-        return self.__dict__
+        return repr(self.__dict__)
