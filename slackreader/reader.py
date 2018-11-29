@@ -25,7 +25,7 @@ class SlackReader:
     def get_channels(self):
 
         url = get_request_url('channels.list', self.api_key)
-        response = requests.get(url.format(self.api_key))
+        response = requests.get(url)
         response = response.json()
         if not response['ok']:
             raise RuntimeError("Problem connecting to slack.")

@@ -53,7 +53,8 @@ class Channel:
         return 'Channel: ' + self.name
 
     def get_messages(self, oldest=None, latest=None):
-        arg_dict = {}
+
+        arg_dict = {'channel': self.id}
 
         if isinstance(oldest, dt.datetime):
             arg_dict['oldest'] = oldest.timestamp()
@@ -79,14 +80,15 @@ class Channel:
                         self.token,
                         arg_dict=arg_dict
                         )
-            response = requests.get(url.format(self.api_key))
+            response = requests.get(url)
             response = response.json()
             if not response['ok']:
                 raise RuntimeError("Problem connecting.")
             for message in response['messages']:
-                messages.append(Message(message))
+                if 'user' in message.keys():
+                    messages.append(Message(message))
+                last_ts = message['ts']
 
-            last_ts = messages[-1].created_ts
             arg_dict['latest'] = last_ts
             has_more = response['has_more']
 
